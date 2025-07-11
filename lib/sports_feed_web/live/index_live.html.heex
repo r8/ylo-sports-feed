@@ -1,0 +1,6 @@
+<%= for {_id, match} <- @streams.matches do %>
+  <ul>
+    <li>Name: {match.name}</li>
+    <li>Status: {match.status}</li>
+  </ul>
+<% end %>

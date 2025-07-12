@@ -5,9 +5,16 @@ defmodule SportsFeedWeb.IndexLive do
 
   @impl true
   def mount(_params, _session, socket) do
+    Phoenix.PubSub.subscribe(SportsFeed.PubSub, "match_updates")
+
     {:ok,
      socket
      |> stream(:matches, get_initial_matches())}
+  end
+
+  @impl true
+  def handle_info({:match_updated, _match_id, match}, socket) do
+    {:no_reply, socket |> stream_insert(:matches, match)}
   end
 
   defp get_initial_matches() do

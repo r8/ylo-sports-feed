@@ -1,4 +1,7 @@
 defmodule SportsFeed.Matches.MatchServers.DynamicSupervisor do
+  @moduledoc """
+  Dynamic Supervisor for managing match servers.
+  """
   use DynamicSupervisor
 
   alias SportsFeed.Matches.MatchServers.Server

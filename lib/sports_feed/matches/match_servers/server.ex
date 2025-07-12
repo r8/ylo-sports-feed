@@ -1,4 +1,10 @@
 defmodule SportsFeed.Matches.MatchServers.Server do
+  @moduledoc """
+  A GenServer that processes messages for a specific match.
+
+  Uses Erlang's `:queue` to manage incoming messages
+  and processes them in the order they are received.
+  """
   use GenServer
   require Logger
 
@@ -24,6 +30,9 @@ defmodule SportsFeed.Matches.MatchServers.Server do
     {:ok, state}
   end
 
+  @doc """
+  Adds a message to the match server's queue for processing.
+  """
   def add_message(pid, message) do
     GenServer.cast(pid, {:add_message, message})
   end
@@ -32,18 +41,23 @@ defmodule SportsFeed.Matches.MatchServers.Server do
     Registry.via_tuple(match_id)
   end
 
+  # Server Callbacks
+
+  # Adds message to the queue and schedules processing.
   @impl true
   def handle_cast({:add_message, %Message{} = message}, state) do
     updated_queue = :queue.in(message, state.queue)
     updated_state = %{state | queue: updated_queue}
 
-    if !state.processing? do
-      {:noreply, schedule_next_message(updated_state)}
-    else
+    if state.processing? do
       {:noreply, updated_state}
+    else
+      # If not currently processing, schedule the next message
+      {:noreply, schedule_next_message(updated_state)}
     end
   end
 
+  # Retrieves and processes the next message in the queue.
   @impl true
   def handle_info(:process_message, state) do
     case :queue.out(state.queue) do
@@ -52,7 +66,7 @@ defmodule SportsFeed.Matches.MatchServers.Server do
           do_process_message(message)
         rescue
           e ->
-            Logger.error(Exception.message(e), message: message)
+            Logger.error(Exception.message(e))
         end
 
         updated_state = %{state | queue: updated_queue}
@@ -68,6 +82,7 @@ defmodule SportsFeed.Matches.MatchServers.Server do
     end
   end
 
+  # Processes the message, updates the match state and notifies the UI.
   defp do_process_message(%Message{} = message) do
     if message.crash do
       raise "Exception for match #{message.match_id}"
@@ -79,17 +94,20 @@ defmodule SportsFeed.Matches.MatchServers.Server do
       status: message.status
     }
 
+    # Update the match state in the Matches.State agent
     Matches.State.set(message.match_id, match)
 
+    # Broadcast the updated match to the PubSub system to notify the UI
     Phoenix.PubSub.broadcast(
       SportsFeed.PubSub,
       "match_updates",
       {:match_updated, match.id, match}
     )
 
-    Logger.info("Message for match #{message.match_id} has been processed", message: message)
+    Logger.info("Message for match #{message.match_id} has been processed")
   end
 
+  # Schedules the next message to be processed after its delay.
   defp schedule_next_message(state) do
     case :queue.out(state.queue) do
       {{:value, message}, _queue} ->

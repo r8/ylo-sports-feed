@@ -1,4 +1,7 @@
 defmodule SportsFeed.Messages.Producer do
+  @moduledoc """
+  A GenServer that loads messages from a JSON file and casts them to the processor.
+  """
   use GenServer
 
   require Logger
@@ -42,6 +45,7 @@ defmodule SportsFeed.Messages.Producer do
     end
   end
 
+  # Loads and parses messages from the JSON file.
   defp load_and_cast_messages do
     filepath = get_file_path()
 
@@ -56,19 +60,18 @@ defmodule SportsFeed.Messages.Producer do
     end
   end
 
+  # Casts each message to the processor.
   defp cast_message(item) do
     case Message.from_map(item) do
       {:ok, message} ->
         SportsFeed.Matches.Processor.add_message(message)
 
       {:error, reason} ->
-        Logger.error("Message parsing error: #{reason}. Skipping... #{inspect(item)}",
-          reason: reason,
-          item: item
-        )
+        Logger.error("Message parsing error: #{reason}. Skipping... #{inspect(item)}")
     end
   end
 
+  # Retrieves the file path from the application configuration.
   defp get_file_path() do
     filename = Application.get_env(@otp_app, :updates_file_name)
     Application.app_dir(@otp_app, "priv/#{filename}")

@@ -1,4 +1,7 @@
 defmodule SportsFeedWeb.Components.Match do
+  @moduledoc """
+  Live component for displaying match information.
+  """
   use SportsFeedWeb, :live_component
 
   alias SportsFeed.Match

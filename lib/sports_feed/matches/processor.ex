@@ -1,4 +1,8 @@
 defmodule SportsFeed.Matches.Processor do
+  @moduledoc """
+  Module for processing messages related to matches.
+  Handles adding messages to the appropriate match server.
+  """
   alias SportsFeed.Message
   alias SportsFeed.Matches.MatchServers
 

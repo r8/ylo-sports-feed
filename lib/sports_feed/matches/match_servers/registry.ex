@@ -1,4 +1,7 @@
 defmodule SportsFeed.Matches.MatchServers.Registry do
+  @moduledoc """
+  A Registry to keep track of started match servers by their match id.
+  """
   def start_link() do
     Registry.start_link(keys: :unique, name: __MODULE__)
   end

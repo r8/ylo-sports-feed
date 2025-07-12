@@ -6,7 +6,7 @@ defmodule SportsFeed.Message do
 
   @doc """
   Creates a new message structure from a map.
-    """
+  """
   def from_map(%{
         "match_id" => match_id,
         "name" => name,

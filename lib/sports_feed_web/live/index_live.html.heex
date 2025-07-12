@@ -1,6 +1,5 @@
-<%= for {_id, match} <- @streams.matches do %>
-  <ul>
-    <li>Name: {match.name}</li>
-    <li>Status: {match.status}</li>
-  </ul>
-<% end %>
+<div class="grid gap-4 grid-cols-1 md:grid-cols-3 lg:grid-cols-5">
+  <%= for {id, match} <- @streams.matches do %>
+    <.live_component module={SportsFeedWeb.Components.Match} id={"match-#{id}"} match={match} />
+  <% end %>
+</div>

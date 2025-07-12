@@ -12,6 +12,6 @@ defmodule SportsFeed.Matches.MatchServers.DynamicSupervisor do
   end
 
   def start_child(match_id) do
-    DynamicSupervisor.start_child(__MODULE__, {Server, {nil, match_id}})
+    DynamicSupervisor.start_child(__MODULE__, {Server, match_id})
   end
 end

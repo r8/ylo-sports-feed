@@ -59,7 +59,7 @@ defmodule SportsFeed.Messages.Producer do
   defp cast_message(item) do
     case Message.from_map(item) do
       {:ok, message} ->
-        SportsFeed.Matches.Processor.process_message(message)
+        SportsFeed.Matches.Processor.add_message(message)
 
       {:error, reason} ->
         Logger.error("Message parsing error: #{reason}. Skipping... #{inspect(item)}",

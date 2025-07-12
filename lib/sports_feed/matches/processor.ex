@@ -2,10 +2,10 @@ defmodule SportsFeed.Matches.Processor do
   alias SportsFeed.Message
   alias SportsFeed.Matches.MatchServers
 
-  def process_message(%Message{match_id: match_id} = message) do
+  def add_message(%Message{match_id: match_id} = message) do
     case find_or_start_match_server(match_id) do
       {:ok, pid} ->
-        MatchServers.Server.process_message(pid, message)
+        MatchServers.Server.add_message(pid, message)
         :ok
 
       _ ->

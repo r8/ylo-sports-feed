@@ -15,6 +15,8 @@ defmodule SportsFeed.Application do
       {Finch, name: SportsFeed.Finch},
       # Start a worker by calling: SportsFeed.Worker.start_link(arg)
       # {SportsFeed.Worker, arg},
+      # Start message producer
+      SportsFeed.Producers.MessageProducer,
       # Start to serve requests, typically the last entry
       SportsFeedWeb.Endpoint
     ]

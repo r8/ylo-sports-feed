@@ -9,12 +9,13 @@ defmodule SportsFeedWeb.IndexLive do
 
     {:ok,
      socket
+     |> stream_configure(:matches, dom_id: &"match-#{&1.id}")
      |> stream(:matches, get_initial_matches())}
   end
 
   @impl true
   def handle_info({:match_updated, _match_id, match}, socket) do
-    {:no_reply, socket |> stream_insert(:matches, match)}
+    {:noreply, socket |> stream_insert(:matches, match)}
   end
 
   defp get_initial_matches() do

@@ -1,5 +1,8 @@
-<div class="grid gap-4 grid-cols-1 md:grid-cols-3 lg:grid-cols-5">
-  <%= for {id, match} <- @streams.matches do %>
-    <.live_component module={SportsFeedWeb.Components.Match} id={"match-#{id}"} match={match} />
-  <% end %>
+<div id="matches" phx-update="stream" class="grid gap-4 grid-cols-1 md:grid-cols-3 lg:grid-cols-5">
+  <.live_component
+    :for={{dom_id, match} <- @streams.matches}
+    module={SportsFeedWeb.Components.Match}
+    id={dom_id}
+    match={match}
+  />
 </div>

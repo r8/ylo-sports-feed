@@ -1,4 +1,4 @@
-defmodule SportsFeed.Producers.MessageProducer do
+defmodule SportsFeed.Messages.Producer do
   use GenServer
 
   require Logger
@@ -59,11 +59,7 @@ defmodule SportsFeed.Producers.MessageProducer do
   defp cast_message(item) do
     case Message.from_map(item) do
       {:ok, message} ->
-        SportsFeed.Matches.State.set(message.match_id, %SportsFeed.Match{
-          id: message.match_id,
-          name: message.name,
-          status: message.status
-        })
+        SportsFeed.Matches.Processor.process_message(message)
 
       {:error, reason} ->
         Logger.error("Message parsing error: #{reason}. Skipping... #{inspect(item)}",

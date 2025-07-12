@@ -12,7 +12,7 @@ defmodule SportsFeed.Application do
       {DNSCluster, query: Application.get_env(:sports_feed, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: SportsFeed.PubSub},
       # Start message producer
-      SportsFeed.Producers.MessageProducer,
+      SportsFeed.Messages.Producer,
       # Start Matches Supervisor
       SportsFeed.Matches.Supervisor,
       # Start to serve requests, typically the last entry

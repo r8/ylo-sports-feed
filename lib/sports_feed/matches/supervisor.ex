@@ -1,14 +1,18 @@
 defmodule SportsFeed.Matches.Supervisor do
   use Supervisor
-  alias SportsFeed.Matches.State
 
-  def start_link(arg) do
-    Supervisor.start_link(__MODULE__, arg, name: __MODULE__)
+  alias SportsFeed.Matches
+  alias SportsFeed.Matches.MatchServers
+
+  def start_link(init_arg) do
+    Supervisor.start_link(__MODULE__, init_arg, name: __MODULE__)
   end
 
-  def init(_arg) do
+  def init(_init_arg) do
     children = [
-      State
+      Matches.State,
+      MatchServers.Registry,
+      MatchServers.DynamicSupervisor
     ]
 
     Supervisor.init(children, strategy: :one_for_one)

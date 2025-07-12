@@ -7,8 +7,8 @@ defmodule SportsFeed.Matches.StateTest do
   import SportsFeed.MatchFixtures
 
   setup do
-    # Clear the state for each test
-    Agent.update(State, fn _state -> %{} end)
+    start_supervised!(State)
+    
     :ok
   end
 

@@ -83,4 +83,8 @@ if config_env() == :prod do
   # Check `Plug.SSL` for all available options in `force_ssl`.
 end
 
-config :sports_feed, :updates_file_name, System.get_env("UPDATES_FILE_NAME") || "updates.json"
+# Updates JSON file location relative to the app folder
+# Should not have a trailing slash on the left side
+config :sports_feed,
+       :updates_file_path,
+       System.get_env("UPDATES_FILE_PATH") || "priv/updates.json"

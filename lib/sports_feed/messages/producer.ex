@@ -54,9 +54,15 @@ defmodule SportsFeed.Messages.Producer do
       Enum.each(data, fn item ->
         cast_message(item)
       end)
+
+      :ok
     else
       {:error, :enoent} ->
         {:error, "No such file or directory"}
+      {:error, %Jason.DecodeError{} = error} ->
+        {:error, "JSON decode error: #{inspect(error)}"}
+      error ->
+        {:error, "Unexpected error: #{inspect(error)}"}
     end
   end
 
@@ -73,7 +79,7 @@ defmodule SportsFeed.Messages.Producer do
 
   # Retrieves the file path from the application configuration.
   defp get_file_path() do
-    filename = Application.get_env(@otp_app, :updates_file_name)
-    Application.app_dir(@otp_app, "priv/#{filename}")
+    filepath = Application.get_env(@otp_app, :updates_file_path)
+    Application.app_dir(@otp_app, filepath)
   end
 end

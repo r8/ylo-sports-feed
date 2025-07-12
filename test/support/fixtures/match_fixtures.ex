@@ -1,4 +1,7 @@
 defmodule SportsFeed.MatchFixtures do
+  @moduledoc """
+  Provides fixtures for creating match data in tests.
+  """
   @status_values ["active", "paused", "completed"]
 
   def match_fixture(attrs \\ %{}) do

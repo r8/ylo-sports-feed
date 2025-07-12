@@ -1,5 +1,7 @@
 # SportsFeed
 
+[![CI](https://github.com/r8/ylo-sports-feed/workflows/CI/badge.svg)](https://github.com/r8/ylo-sports-feed/actions?query=workflow%3ACI)
+
 To start your Phoenix server:
 
   * Run `mix setup` to install and setup dependencies

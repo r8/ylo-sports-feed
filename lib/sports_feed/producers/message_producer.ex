@@ -3,6 +3,8 @@ defmodule SportsFeed.Producers.MessageProducer do
 
   require Logger
 
+  alias SportsFeed.Message
+
   @otp_app :sports_feed
 
   @retries 3
@@ -46,11 +48,24 @@ defmodule SportsFeed.Producers.MessageProducer do
     with {:ok, content} <- File.read(filepath),
          {:ok, data} <- Jason.decode(content) do
       Enum.each(data, fn item ->
-        IO.inspect(item)
+        cast_message(item)
       end)
     else
       {:error, :enoent} ->
         {:error, "No such file or directory"}
+    end
+  end
+
+  defp cast_message(item) do
+    case Message.from_map(item) do
+      {:ok, message} ->
+        IO.inspect(message)
+
+      {:error, reason} ->
+        Logger.error("Message parsing error: #{reason}. Skipping... #{inspect(item)}",
+          reason: reason,
+          item: item
+        )
     end
   end
 

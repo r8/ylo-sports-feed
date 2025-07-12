@@ -43,8 +43,8 @@ defmodule SportsFeed.Messages.ProducerTest do
       state = %{retries: 0}
 
       assert capture_log(fn ->
-        assert {:noreply, %{retries: 1}} = Producer.handle_info(:run, state)
-      end) =~ "Failure to load and cast messages"
+               assert {:noreply, %{retries: 1}} = Producer.handle_info(:run, state)
+             end) =~ "Failure to load and cast messages"
 
       assert_receive :run, 6000
     end
@@ -55,8 +55,8 @@ defmodule SportsFeed.Messages.ProducerTest do
       state = %{retries: 3}
 
       assert capture_log(fn ->
-        assert {:stop, _reason, ^state} = Producer.handle_info(:run, state)
-      end) =~ "Failure to load and cast messages after 3 retries"
+               assert {:stop, _reason, ^state} = Producer.handle_info(:run, state)
+             end) =~ "Failure to load and cast messages after 3 retries"
     end
   end
 
@@ -95,8 +95,8 @@ defmodule SportsFeed.Messages.ProducerTest do
       state = %{retries: 0}
 
       assert capture_log(fn ->
-        assert {:noreply, %{retries: 1}} = Producer.handle_info(:run, state)
-      end) =~ "Failure to load and cast messages"
+               assert {:noreply, %{retries: 1}} = Producer.handle_info(:run, state)
+             end) =~ "Failure to load and cast messages"
 
       GenServer.stop(pid)
     end
@@ -115,8 +115,8 @@ defmodule SportsFeed.Messages.ProducerTest do
       state = %{retries: 0}
 
       assert capture_log(fn ->
-        assert {:noreply, ^state} = Producer.handle_info(:run, state)
-      end) =~ "Message parsing error"
+               assert {:noreply, ^state} = Producer.handle_info(:run, state)
+             end) =~ "Message parsing error"
 
       GenServer.stop(pid)
     end
@@ -124,7 +124,7 @@ defmodule SportsFeed.Messages.ProducerTest do
 
   defp create_test_file(relative_path, messages) do
     full_path = Application.app_dir(:sports_feed, relative_path)
-    
+
     full_path
     |> Path.dirname()
     |> File.mkdir_p!()

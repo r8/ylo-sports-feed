@@ -59,8 +59,10 @@ defmodule SportsFeed.Messages.Producer do
     else
       {:error, :enoent} ->
         {:error, "No such file or directory"}
+
       {:error, %Jason.DecodeError{} = error} ->
         {:error, "JSON decode error: #{inspect(error)}"}
+
       error ->
         {:error, "Unexpected error: #{inspect(error)}"}
     end

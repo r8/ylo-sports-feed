@@ -8,7 +8,7 @@ defmodule SportsFeed.Matches.StateTest do
 
   setup do
     start_supervised!(State)
-    
+
     :ok
   end
 

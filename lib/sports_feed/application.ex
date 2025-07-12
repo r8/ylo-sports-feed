@@ -11,12 +11,10 @@ defmodule SportsFeed.Application do
       SportsFeedWeb.Telemetry,
       {DNSCluster, query: Application.get_env(:sports_feed, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: SportsFeed.PubSub},
-      # Start the Finch HTTP client for sending emails
-      {Finch, name: SportsFeed.Finch},
-      # Start a worker by calling: SportsFeed.Worker.start_link(arg)
-      # {SportsFeed.Worker, arg},
       # Start message producer
       SportsFeed.Producers.MessageProducer,
+      # Start Matches Supervisor
+      SportsFeed.Matches.Supervisor,
       # Start to serve requests, typically the last entry
       SportsFeedWeb.Endpoint
     ]

@@ -2,7 +2,6 @@ defmodule SportsFeed.Matches.Supervisor do
   @moduledoc """
   Supervisor for managing the matches subsystem.
   """
-
   use Supervisor
 
   alias SportsFeed.Matches

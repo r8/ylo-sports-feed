@@ -30,9 +30,9 @@ Install Elixir and Erlang with **asdf** or **mise-en-place**.
    asdf plugin add elixir
    ```
 3. Run `asdf install` in the cloned subfolder. This will install all the tool versions specified in the .tool_versions file.
-  ```bash
-  asdf install
-  ```
+   ```bash
+   asdf install
+   ```
 
 ### mise-en-place
 

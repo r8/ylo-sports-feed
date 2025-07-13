@@ -95,6 +95,19 @@ defmodule SportsFeed.Matches.MatchServers.Server do
     end
   end
 
+  # Schedules the next message to be processed after its delay.
+  defp schedule_next_message(state) do
+    case :queue.out(state.queue) do
+      {{:value, message}, _queue} ->
+        Process.send_after(self(), :process_message, message.delay)
+
+        %{state | processing?: true}
+
+      {:empty, _} ->
+        %{state | processing?: false}
+    end
+  end
+
   # Processes the message, updates the match state and notifies the UI.
   defp do_process_message(%Message{} = message) do
     if message.crash do
@@ -118,18 +131,5 @@ defmodule SportsFeed.Matches.MatchServers.Server do
     )
 
     Logger.info("Message for match #{message.match_id} has been processed")
-  end
-
-  # Schedules the next message to be processed after its delay.
-  defp schedule_next_message(state) do
-    case :queue.out(state.queue) do
-      {{:value, message}, _queue} ->
-        Process.send_after(self(), :process_message, message.delay)
-
-        %{state | processing?: true}
-
-      {:empty, _} ->
-        %{state | processing?: false}
-    end
   end
 end

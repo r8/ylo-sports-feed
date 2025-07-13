@@ -14,8 +14,11 @@ defmodule SportsFeed.Matches.Supervisor do
 
   def init(_init_arg) do
     children = [
+      # Start the State Agent that holds the latest match states
       Matches.State,
+      # Start the Registry for match servers
       MatchServers.Registry,
+      # Start the DynamicSupervisor for match servers
       MatchServers.DynamicSupervisor
     ]
 

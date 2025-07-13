@@ -47,7 +47,7 @@ defmodule SportsFeed.Matches.MatchServers.DynamicSupervisorTest do
       match_id = 789
 
       children_before = DynamicSupervisor.which_children(MatchServers.DynamicSupervisor)
-      assert length(children_before) == 0
+      assert Enum.empty?(children_before)
 
       {:ok, _pid} = MatchServers.DynamicSupervisor.start_child(match_id)
 

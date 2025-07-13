@@ -1,5 +1,5 @@
 defmodule SportsFeed.Matches.StateTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: false
 
   alias SportsFeed.Matches.State
   alias SportsFeed.Match

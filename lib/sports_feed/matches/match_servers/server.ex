@@ -37,11 +37,24 @@ defmodule SportsFeed.Matches.MatchServers.Server do
     GenServer.cast(pid, {:add_message, message})
   end
 
+  @doc """
+  Gets the current state of the server
+  """
+  def get_state(pid) do
+    GenServer.call(pid, :state)
+  end
+
   defp via_tuple(match_id) do
     Registry.via_tuple(match_id)
   end
 
   # Server Callbacks
+
+  # Retrieves the current state of the server.
+  @impl true
+  def handle_call(:state, _from, state) do
+    {:reply, state, state}
+  end
 
   # Adds message to the queue and schedules processing.
   @impl true
@@ -78,7 +91,7 @@ defmodule SportsFeed.Matches.MatchServers.Server do
         end
 
       {:empty, _} ->
-        %{state | processing?: false}
+        {:noreply, %{state | processing?: false}}
     end
   end
 

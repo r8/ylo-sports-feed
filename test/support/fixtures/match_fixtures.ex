@@ -6,7 +6,7 @@ defmodule SportsFeed.MatchFixtures do
 
   def match_fixture(attrs \\ %{}) do
     generated_attrs = %{
-      id: :rand.uniform(200_000),
+      id: System.unique_integer([:positive]),
       name: "#{Faker.Team.En.name()} vs #{Faker.Team.En.name()}",
       status: Enum.random(@status_values)
     }

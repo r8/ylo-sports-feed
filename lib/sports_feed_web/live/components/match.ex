@@ -11,7 +11,11 @@ defmodule SportsFeedWeb.Components.Match do
 
   def render(assigns) do
     ~H"""
-    <div id={@id} class="h-[120px] p-1 border border-zinc-200 rounded-md" style={"order:#{@match.id};"}>
+    <div
+      id={@id}
+      class="h-[120px] p-1 border border-zinc-200 rounded-md"
+      style={"order:#{@match.id};"}
+    >
       <div class={[
         "h-full p-2 pt-1 flex flex-col justify-between",
         @match.status == "active" && "bg-green-100",

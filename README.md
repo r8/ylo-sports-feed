@@ -2,8 +2,8 @@
 
 [![CI](https://github.com/r8/ylo-sports-feed/workflows/CI/badge.svg)](https://github.com/r8/ylo-sports-feed/actions?query=workflow%3ACI)
 
-Task description: [TASK.md](./TASK.md)
-JSON with sport updates: [./priv/updates.json](./priv/updates.json)
+- Task description: [TASK.md](./TASK.md)
+- JSON with sport updates: [./priv/updates.json](./priv/updates.json)
 
 ## Setup
 

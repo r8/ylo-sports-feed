@@ -78,7 +78,13 @@ defmodule SportsFeed.Messages.ProducerTest do
     end
 
     test "handles invalid JSON gracefully", %{test_file_path: test_file_path} do
-      File.write!(Application.app_dir(:sports_feed, test_file_path), "invalid json")
+      full_path = Application.app_dir(:sports_feed, test_file_path)
+
+      full_path
+      |> Path.dirname()
+      |> File.mkdir_p!()
+
+      File.write!(full_path, "invalid json")
 
       {:ok, pid} = GenServer.start_link(Producer, nil)
       state = %{retries: 0}
